@@ -14,7 +14,7 @@ Bangalore when in India) with no geo-detection logic.
 ## Constraints
 
 - Super lightweight: native AppKit, no Electron/webview, no third-party dependencies.
-  Target < 15 MB RSS, negligible CPU when idle.
+  ~200 KB binary; RSS ≈ 55 MB (AppKit baseline, measured); ≈ 0% CPU when idle.
 - Minimal network usage: one 64-byte ICMP echo every 5 s by default (~12 packets/min).
 - No root privileges: use macOS's unprivileged ICMP datagram socket
   (`SOCK_DGRAM` + `IPPROTO_ICMP`).
