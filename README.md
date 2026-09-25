@@ -1,5 +1,9 @@
 # PingBar
 
+<p align="center">
+  <img src="Resources/AppIcon.png" width="128" alt="PingBar icon">
+</p>
+
 **A tiny, native macOS menu bar app that tells you — at a glance — whether your internet is actually working.**
 
 ```
@@ -29,16 +33,27 @@ Wi‑Fi icons lie. They show signal strength to your router, not whether packets
 - **Featherweight** — 64-byte packets, ~12 per minute by default. You will never notice it on your bill or your bandwidth.
 - **No privileges** — uses macOS's unprivileged ICMP datagram socket. No `sudo`, no `ping` subprocess.
 
-## Requirements
+## Install
 
-- macOS 13 Ventura or later (Apple Silicon or Intel)
-- Swift 5.9+ — the **Xcode Command Line Tools** are enough, no full Xcode needed:
+### Download (no compiler needed)
 
-  ```sh
-  xcode-select --install
-  ```
+Grab the latest disk image from [Releases](https://github.com/b1tfury/pingbar/releases/latest):
 
-## Install & run
+1. Download `PingBar-0.1.0.dmg`.
+2. Open it and drag **PingBar** onto the **Applications** folder.
+3. Open PingBar from Applications (or Spotlight).
+
+Look at the top-right of your menu bar for `● 14ms`. Click it → **Launch at Login** so it's always there.
+
+The download is ad-hoc signed, not notarized, so macOS will block the first open. Right-click `PingBar.app` in Applications → **Open** → **Open**, or run:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/PingBar.app
+```
+
+Requires macOS 13 or later. The binary is built for Apple Silicon (`arm64`).
+
+### Build from source
 
 ```sh
 git clone https://github.com/b1tfury/pingbar.git
@@ -47,9 +62,7 @@ make install
 open /Applications/PingBar.app
 ```
 
-That's it. Look at the top-right of your menu bar for `● 14ms`.
-
-Then click it → **Launch at Login** so it's always there.
+Needs Swift 5.9+ — the **Xcode Command Line Tools** are enough (`xcode-select --install`).
 
 ### Other targets
 
@@ -58,17 +71,10 @@ Then click it → **Launch at Login** so it's always there.
 | `make app`     | Build a release binary and assemble `build/PingBar.app`   |
 | `make run`     | Build and open the app bundle                             |
 | `make install` | Build and copy to `/Applications/PingBar.app`             |
+| `make package` | Build a drag-to-install `build/PingBar-0.1.0.dmg`         |
 | `make dev`     | `swift run` — quick iteration, no bundle (Launch at Login disabled) |
 | `make test`    | Run the unit tests                                        |
 | `make clean`   | Remove build artifacts                                    |
-
-### First launch
-
-The app is ad‑hoc signed (not notarized). If macOS shows *"PingBar can't be opened because it is from an unidentified developer"*, right‑click the app → **Open**, or run:
-
-```sh
-xattr -dr com.apple.quarantine /Applications/PingBar.app
-```
 
 ## Using it
 
