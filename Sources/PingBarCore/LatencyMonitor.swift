@@ -9,6 +9,8 @@ public struct Snapshot: Sendable {
     public let max: TimeInterval?
     public let lossPercent: Double
     public let status: Status
+    /// Last 15 minutes of probes, oldest first.
+    public let history: [HistoryPoint]
 }
 
 /// Drives periodic probes on a background queue, keeps a rolling window,
@@ -21,6 +23,7 @@ public final class LatencyMonitor {
     private let queue = DispatchQueue(label: "dev.bitfury.pingbar.monitor", qos: .utility)
     private var timer: DispatchSourceTimer?
     private var window = SampleWindow(capacity: 12)
+    private var history = History()
     private var pingers: [String: ICMPPinger] = [:]
     private let pingTimeout: TimeInterval = 2.0
 
@@ -55,6 +58,7 @@ public final class LatencyMonitor {
         settings.primary = target
         queue.async {
             self.window.reset()
+            self.history.reset()
             self.restartTimer()
         }
     }
@@ -92,6 +96,7 @@ public final class LatencyMonitor {
         }
 
         window.append(result)
+        history.append(result)
         let snap = Snapshot(
             latest: result,
             host: host,
@@ -99,7 +104,8 @@ public final class LatencyMonitor {
             min: window.min,
             max: window.max,
             lossPercent: window.lossPercent,
-            status: Status.classify(result)
+            status: Status.classify(result),
+            history: history.points()
         )
         DispatchQueue.main.async { [onUpdate] in onUpdate?(snap) }
     }

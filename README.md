@@ -29,6 +29,7 @@ Wi‑Fi icons lie. They show signal strength to your router, not whether packets
 - **Nearest-edge probing** via anycast — no geo-detection, no config.
 - **Automatic fallback** — if Cloudflare times out, it retries Google `8.8.8.8` once before showing red, so a single provider hiccup doesn't cry wolf.
 - **Last-minute stats** in the dropdown: avg / min / max latency and packet loss over the last 12 samples.
+- **15-minute chart** in the dropdown: one bar per ping, colored by threshold, with dropouts marked in red and the peak spike called out with its time.
 - **Launch at Login** toggle.
 - **Featherweight** — 64-byte packets, ~12 per minute by default. You will never notice it on your bill or your bandwidth.
 - **No privileges** — uses macOS's unprivileged ICMP datagram socket. No `sudo`, no `ping` subprocess.
@@ -147,7 +148,6 @@ defaults delete dev.bitfury.pingbar
 Not built yet — open an issue or PR if you want one of these:
 
 - Notification when the link stays red for N consecutive ticks
-- Sparkline of the last minute in the dropdown
 - TCP `:443` fallback for networks that filter ICMP
 - Custom targets
 - IPv6

@@ -10,6 +10,7 @@ final class StatusBarController: NSObject {
 
     private let targetInfo = NSMenuItem(title: "Target: —", action: nil, keyEquivalent: "")
     private let statsInfo = NSMenuItem(title: "Waiting for first ping…", action: nil, keyEquivalent: "")
+    private let chart = HistoryChartView()
     private let intervalMenu = NSMenu()
     private let targetMenu = NSMenu()
     private let launchAtLogin = NSMenuItem(title: "Launch at Login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
@@ -62,6 +63,9 @@ final class StatusBarController: NSObject {
         } else {
             statsInfo.title = String(format: "Last minute: no replies · loss %.0f%%", snap.lossPercent)
         }
+
+        // Only triggers a redraw while the menu is open (view has a window).
+        chart.points = snap.history
     }
 
     private static func title(dot: NSColor, text: String) -> NSAttributedString {
@@ -79,6 +83,10 @@ final class StatusBarController: NSObject {
         statsInfo.isEnabled = false
         menu.addItem(targetInfo)
         menu.addItem(statsInfo)
+        let chartItem = NSMenuItem()
+        chartItem.view = chart
+        chartItem.isEnabled = false
+        menu.addItem(chartItem)
         menu.addItem(.separator())
 
         let intervalItem = NSMenuItem(title: "Interval", action: nil, keyEquivalent: "")
