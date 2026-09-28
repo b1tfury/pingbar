@@ -40,7 +40,7 @@ Wi‑Fi icons lie. They show signal strength to your router, not whether packets
 
 Grab the latest disk image from [Releases](https://github.com/b1tfury/pingbar/releases/latest):
 
-1. Download `PingBar-0.1.0.dmg`.
+1. Download `PingBar-0.2.0.dmg`.
 2. Open it and drag **PingBar** onto the **Applications** folder.
 3. Open PingBar from Applications (or Spotlight).
 
@@ -72,7 +72,7 @@ Needs Swift 5.9+ — the **Xcode Command Line Tools** are enough (`xcode-select 
 | `make app`     | Build a release binary and assemble `build/PingBar.app`   |
 | `make run`     | Build and open the app bundle                             |
 | `make install` | Build and copy to `/Applications/PingBar.app`             |
-| `make package` | Build a drag-to-install `build/PingBar-0.1.0.dmg`         |
+| `make package` | Build a drag-to-install `build/PingBar-0.2.0.dmg`         |
 | `make dev`     | `swift run` — quick iteration, no bundle (Launch at Login disabled) |
 | `make test`    | Run the unit tests                                        |
 | `make clean`   | Remove build artifacts                                    |
